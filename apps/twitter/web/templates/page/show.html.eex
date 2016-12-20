@@ -1,0 +1,40 @@
+<%= if @current_user do %>
+
+  <div class="col-md-3">
+    <img src="<%= @current_user.avatar %>"
+    class="img-circle"
+    height="128px" width="128px"
+    />
+  </div>
+
+  <div class="col-md-9">
+    <h2>Welcome <%= @current_user.name %>, to the Phoenix Twitter Client!</h2>
+    <%= link "Refresh your query!",
+      to: "/feed",
+      class: "btn btn-lg btn-primary"
+    %>
+
+    &nbsp;
+
+    <%= link "Logout",
+      to: auth_path(@conn, :delete),
+      method: :delete,
+      class: "btn btn-lg btn-danger"
+    %>
+  </div>
+
+  <div class="col-md-12">
+    <br><br>
+    <%= form_for @conn, page_path(@conn, :update), [as: :search], fn f -> %>
+      <%= text_input f, :for , placeholder: "Find Tweets!"%>
+      <%= submit "Search", class: "btn btn-sm btn-primary" %>
+    <% end %>
+  </div>
+
+  <div class="col-md-12">
+    <h2>Search Results:</h2>
+    <%= for entry <- @feed do %>
+      <h4><%= Enum.at(entry,0) %>: <a href=<%= Enum.join(["http://", Enum.at(entry,1)],"") %> target="_blank"><%= Enum.at(entry,1) %></a></h4>
+    <% end %>
+  </div>
+<% end %>

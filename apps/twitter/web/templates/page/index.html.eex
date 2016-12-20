@@ -1,0 +1,30 @@
+<%= if @current_user do %>
+
+  <div class="col-md-3">
+    <img src="<%= @current_user.avatar %>"
+    class="img-circle"
+    height="128px" width="128px"
+    />
+  </div>
+
+  <div class="col-md-9">
+    <h2>Welcome <%= @current_user.name %>, to the Phoenix Twitter Client!</h2>
+    &nbsp;
+
+    <%= link "Logout",
+      to: auth_path(@conn, :delete),
+      method: :delete,
+      class: "btn btn-lg btn-danger"
+    %>
+
+  </div>
+
+<% else %>
+  <div class="jumbotron">
+    <h2><%= gettext "Welcome to %{name}", name: "Phoenix-Twitter!" %></h2>
+    <p class="lead">A Twitter Client that runs on Phoenix!<br />A Framework that does not compromise speed and maintainability.</p>
+  </div>
+  <a class="btn btn-primary btn-lg" href="/auth/twitter">
+    Sign in with Twitter
+  </a>
+<% end %>
